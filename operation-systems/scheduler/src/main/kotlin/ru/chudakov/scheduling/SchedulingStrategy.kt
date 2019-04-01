@@ -4,5 +4,5 @@ import ru.chudakov.Process
 import java.util.*
 
 interface SchedulingStrategy {
-    fun next(processes: LinkedList<Process>): Int
+    fun next(processes: LinkedList<Process>): Double
 }

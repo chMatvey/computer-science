@@ -3,16 +3,36 @@ package ru.chudakov.scheduling
 import ru.chudakov.Process
 import java.util.*
 
-class RoundRobinStrategy(quantum: Int) : AbstractSchedulingStrategy(quantum) {
-    override fun next(processes: LinkedList<Process>): Int {
-        val process = processes.first()
+class RoundRobinStrategy(private val quantum: Int) : AbstractSchedulingStrategy() {
+    override fun next(processes: LinkedList<Process>): Double {
+        var time = 0
+        var speedTime = 0
+        val countProcesses = processes.size
 
-        return if (process.runDuration <= quantum) {
+        val processesAndRunDuration = TreeMap<Process, Int>()
+        processes.forEach { p -> processesAndRunDuration.put(p, p.runDuration) }
+
+        while (!processes.isEmpty()) {
+            val process = processes.first
+
+            if (process.timeAppearance > time) {
+                time = process.timeAppearance
+            }
+
             processes.removeFirst()
-            process.runDuration
-        } else {
-            process.runDuration -= quantum
-            quantum
+            if (processesAndRunDuration.getValue(process) <= quantum) {
+                time += processesAndRunDuration.getValue(process)
+                processesAndRunDuration[process] = 0
+                speedTime += time - process.timeAppearance
+            } else {
+                time += quantum
+                processesAndRunDuration[process] = processesAndRunDuration.getValue(process) - quantum
+                //process.runDuration -= quantum
+                val index = processes.indexOfLast { p -> p.timeAppearance <= time } + 1
+                processes.add(index, process)
+            }
         }
+
+        return (speedTime / countProcesses).toDouble()
     }
 }

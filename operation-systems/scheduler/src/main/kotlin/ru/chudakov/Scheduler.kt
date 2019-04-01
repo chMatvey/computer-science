@@ -11,17 +11,11 @@ class Scheduler(private val strategy: SchedulingStrategy) {
         processesQueue.add(process)
     }
 
-    fun run() {
-        val middleTimeSpeeds = LinkedList<Int>()
-        var time = 0
+    fun addProcesses(processes: List<Process>) {
+        processesQueue.addAll(processes)
+    }
 
-        while (!processesQueue.isEmpty()) {
-            val countProcesses = processesQueue.size
-            time += strategy.next(processesQueue)
-
-            if (countProcesses != processesQueue.size) {
-                middleTimeSpeeds.add(time - )
-            }
-        }
+    fun run(): Double {
+        return strategy.next(processesQueue)
     }
 }
