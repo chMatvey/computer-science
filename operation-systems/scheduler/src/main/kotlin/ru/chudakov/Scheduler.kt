@@ -16,6 +16,10 @@ class Scheduler(private val strategy: SchedulingStrategy) {
     }
 
     fun run(): Double {
-        return strategy.next(processesQueue)
+        return strategy.schedule(processesQueue)
+    }
+
+    fun getMaxCountProcessesInQueue(): Int {
+        return strategy.maxCountProcessesInQueue
     }
 }

@@ -21,8 +21,10 @@ fun main() {
                 Random.nextInt(4, 11),
                 timeAppearance
         ))
+        System.out.println(processes.last())
         timeAppearance += Random.nextInt(2, 9)
     }
+
 //    processes.add(Process("1", 7, 0))
 //    processes.add(Process("2", 6, 5))
 //    processes.add(Process("3", 10, 8))
@@ -31,24 +33,9 @@ fun main() {
     roundRobinScheduler.addProcesses(LinkedList<Process>(processes))
     shortestRemainingTimeScheduler.addProcesses(LinkedList<Process>(processes))
 
-    System.out.println("Среднее время оборота процессов для RR алгоритма")
-    System.out.println(roundRobinScheduler.run())
-    System.out.println("Среднее время оборота процессов для SRT алгоритма")
-    System.out.println(shortestRemainingTimeScheduler.run())
-}
-
-fun test() {
-    System.out.println("Никитка")
-    val list = mutableListOf<Process>(
-            ru.chudakov.Process("1", 1, 1),
-            ru.chudakov.Process("3", 3, 3)
-    )
-    changelist(list)
-    list.add(1, ru.chudakov.Process("2", 2, 2))
-    list.forEach { p -> System.out.println(p.name + " " + p.runDuration) }
-}
-
-fun changelist(list: List<Process>) {
-    val element = list[0]
-    element.runDuration = 44
+    System.out.println()
+    System.out.println("Среднее время оборота процессов для RR алгоритма: ${roundRobinScheduler.run()}")
+    System.out.println("Максимальное количество процессов в очереди: ${roundRobinScheduler.getMaxCountProcessesInQueue()}")
+    System.out.println("Среднее время оборота процессов для SRT алгоритма: ${shortestRemainingTimeScheduler.run()}")
+    System.out.println("Максимальное количество процессов в очереди: ${shortestRemainingTimeScheduler.getMaxCountProcessesInQueue()}")
 }

@@ -2,20 +2,31 @@ package ru.chudakov.scheduling
 
 import ru.chudakov.Process
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ShortestRemainingTimeStrategy : AbstractSchedulingStrategy() {
     private val timeUnit = 1
 
-    override fun next(processes: LinkedList<Process>): Double {
+    override fun schedule(processes: LinkedList<Process>): Double {
+        resetMaxCountProcessesInQueue()
+
         var time = 0
         var speedTime = 0
         val countProcesses = processes.size
 
+        val processesAndRunDuration = TreeMap<Process, Int>()
+        processes.forEach { p -> processesAndRunDuration[p] = p.runDuration }
+
         while (!processes.isEmpty()) {
-            val process = processes
+            val processesInQueue = processes
                     .filter { p -> p.timeAppearance <= time }
-                    .sortedBy { p -> p.runDuration }
-                    .firstOrNull()
+                    .sortedBy { p -> processesAndRunDuration[p] }
+
+            if (processesInQueue.count() - 1 > maxCountProcessesInQueue) {
+                maxCountProcessesInQueue = processesInQueue.size - 1
+            }
+
+            val process = processesInQueue.firstOrNull()
 
             if (process == null) {
                 time = processes.first.timeAppearance
@@ -23,14 +34,14 @@ class ShortestRemainingTimeStrategy : AbstractSchedulingStrategy() {
             }
 
             time += timeUnit
-            process.runDuration -= timeUnit
+            processesAndRunDuration[process] = processesAndRunDuration.getValue(process) - timeUnit
 
-            if (process.runDuration == 0) {
+            if (processesAndRunDuration[process] == 0) {
                 processes.remove(process)
                 speedTime += time - process.timeAppearance
             }
         }
 
-        return (speedTime / countProcesses).toDouble()
+        return speedTime.toDouble() / countProcesses
     }
 }
