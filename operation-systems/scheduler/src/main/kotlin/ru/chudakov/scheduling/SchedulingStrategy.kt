@@ -7,4 +7,6 @@ interface SchedulingStrategy {
     fun schedule(processes: LinkedList<Process>): Double
 
     public var maxCountProcessesInQueue: Int
+
+    public var middleTimeInQueue: Double
 }

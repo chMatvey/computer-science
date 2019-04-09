@@ -35,7 +35,10 @@ fun main() {
 
     System.out.println()
     System.out.println("Среднее время оборота процессов для RR алгоритма: ${roundRobinScheduler.run()}")
+    System.out.println("Среднее время нахождения в очереди: ${roundRobinScheduler.getMiddleTimeInQueue()}")
     System.out.println("Максимальное количество процессов в очереди: ${roundRobinScheduler.getMaxCountProcessesInQueue()}")
+
     System.out.println("Среднее время оборота процессов для SRT алгоритма: ${shortestRemainingTimeScheduler.run()}")
+    System.out.println("Среднее время нахождения в очереди: ${shortestRemainingTimeScheduler.getMiddleTimeInQueue()}")
     System.out.println("Максимальное количество процессов в очереди: ${shortestRemainingTimeScheduler.getMaxCountProcessesInQueue()}")
 }

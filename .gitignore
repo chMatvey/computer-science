@@ -1,3 +1,7 @@
 /operation-systems/scheduler/target
 /operation-systems/scheduler/.idea
 /operation-systems/scheduler/scheduler.iml
+
+compilers/simple-precedence-grammar/target
+compilers/simple-precedence-grammar/.idea
+compilers/simple-precedence-grammar/scheduler.iml

@@ -2,7 +2,6 @@ package ru.chudakov.scheduling
 
 import ru.chudakov.Process
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ShortestRemainingTimeStrategy : AbstractSchedulingStrategy() {
     private val timeUnit = 1
@@ -12,6 +11,7 @@ class ShortestRemainingTimeStrategy : AbstractSchedulingStrategy() {
 
         var time = 0
         var speedTime = 0
+        val runDurationTime = processes.sumBy { p -> p.runDuration }
         val countProcesses = processes.size
 
         val processesAndRunDuration = TreeMap<Process, Int>()
@@ -41,6 +41,8 @@ class ShortestRemainingTimeStrategy : AbstractSchedulingStrategy() {
                 speedTime += time - process.timeAppearance
             }
         }
+
+        middleTimeInQueue = (speedTime.toDouble() - runDurationTime) / countProcesses
 
         return speedTime.toDouble() / countProcesses
     }
