@@ -1,7 +1,7 @@
 package ru.chudakov
 
 fun main() {
-    val expression = "ab"
+    val expression = "aAb"
     val recognizer = Recognizer()
     val factory = SimplePrecedenceGrammarFactory()
     val grammar = factory.create()

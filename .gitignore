@@ -5,3 +5,7 @@
 compilers/simple-precedence-grammar/target
 compilers/simple-precedence-grammar/.idea
 compilers/simple-precedence-grammar/scheduler.iml
+
+compilers/lexical-analyzer/target
+compilers/lexical-analyzer/.idea
+compilers/lexical-analyzer/scheduler.iml
