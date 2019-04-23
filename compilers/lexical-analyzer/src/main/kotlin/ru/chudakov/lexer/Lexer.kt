@@ -39,8 +39,11 @@ class Lexer {
     fun scan(expression: String) {
         val chars = expression.toCharArray()
 
+        var line = 1
+
         chars.forEach lit@{
-            
+            if (it == ' ' || it == '\t') return@lit
+
         }
     }
 }

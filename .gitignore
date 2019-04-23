@@ -9,3 +9,4 @@ compilers/simple-precedence-grammar/scheduler.iml
 compilers/lexical-analyzer/target
 compilers/lexical-analyzer/.idea
 compilers/lexical-analyzer/scheduler.iml
+compilers/lexical-analyzer/lexical-analyzer.iml
