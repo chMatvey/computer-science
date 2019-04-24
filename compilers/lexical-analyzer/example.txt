@@ -1,0 +1,9 @@
+var x, y
+
+begin
+	y := x * 3 + 12
+	y << 1
+	y +
+end
+
+begin

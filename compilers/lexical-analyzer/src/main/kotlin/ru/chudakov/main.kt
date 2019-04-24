@@ -1,16 +1,17 @@
 package ru.chudakov
 
 import ru.chudakov.lexer.Lexer
+import java.io.File
 
 fun main() {
     val lexer = Lexer()
-    foo()
+    val expression = readFileDirectlyAsText("E:\\project\\computer-science\\compilers\\lexical-analyzer\\example.txt")
+
+    val table = lexer.scan(expression)
+
+    table.getLexemes().forEach {
+        System.out.println("Лексема: " + it.getValue() + "; " + it.getTag() + "; Строка " + it.line)
+    }
 }
 
-fun foo() {
-    listOf(1, 2, 3, 4, 5).forEach lit@{
-        if (it == 3) return@lit // local return to the caller of the lambda, i.e. the forEach loop
-        print(it)
-    }
-    print(" done with explicit label")
-}
+fun readFileDirectlyAsText(fileName: String): String = File(fileName).readText(Charsets.UTF_8)

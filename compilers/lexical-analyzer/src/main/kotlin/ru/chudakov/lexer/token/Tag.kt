@@ -7,5 +7,6 @@ enum class Tag {
     DOUBLE_NUM,
     SEPARATOR,
     UNARY_OPERATION,
-    BINARY_OPERATION
+    BINARY_OPERATION,
+    ERROR
 }

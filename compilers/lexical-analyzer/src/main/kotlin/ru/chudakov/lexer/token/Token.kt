@@ -1,4 +1,5 @@
 package ru.chudakov.lexer.token
 
-open class Token(val tag : Tag) {
+abstract class Token(val tag: Tag) {
+    abstract fun getValue(): String
 }
