@@ -10,3 +10,9 @@ compilers/lexical-analyzer/target
 compilers/lexical-analyzer/.idea
 compilers/lexical-analyzer/scheduler.iml
 compilers/lexical-analyzer/lexical-analyzer.iml
+
+/operation-systems/Administrator/Debug
+/operation-systems/Administrator/Administrator/Debug
+/operation-systems/Administrator/Reader/Debug
+/operation-systems/Administrator/Writer/Debug
+/operation-systems/Administrator/.vs

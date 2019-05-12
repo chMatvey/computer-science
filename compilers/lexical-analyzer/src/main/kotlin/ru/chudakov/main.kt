@@ -1,6 +1,8 @@
 package ru.chudakov
 
 import ru.chudakov.lexer.Lexer
+import ru.chudakov.lexer.token.Error
+import ru.chudakov.lexer.token.Tag
 import java.io.File
 
 fun main() {
@@ -10,7 +12,9 @@ fun main() {
     val table = lexer.scan(expression)
 
     table.getLexemes().forEach {
-        System.out.println("Лексема: " + it.getValue() + "; " + it.getTag() + "; Строка " + it.line)
+        var errorMessage = ""
+        if (it.token is Error) errorMessage = it.token.description
+        System.out.println("Лексема: " + it.getValue() + "; " + it.getTag() + "; Строка " + it.line +  "; " + errorMessage)
     }
 }
 

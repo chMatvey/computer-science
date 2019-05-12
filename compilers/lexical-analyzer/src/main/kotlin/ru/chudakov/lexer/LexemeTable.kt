@@ -76,7 +76,7 @@ class LexemeTable {
             while (count != 0) {
                 val index = lexemes.lastIndexOf(Lexeme(Word(Tag.KEY, "begin"), 1))
                 val lexeme = lexemes.removeAt(index)
-                lexemes.add(index, Lexeme(Error(lexeme.getValue(), binaryError), lexeme.line))
+                lexemes.add(index, Lexeme(Error(lexeme.getValue(), error), lexeme.line))
                 count--
             }
         }
