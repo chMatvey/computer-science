@@ -12,9 +12,9 @@ int getCount(int min, int max);
 int main()
 {
 	TCHAR buf[MAX_BUF] = { 0 };
-	HANDLE hMutexR1, hMutexR2, hMutexW1, hMutexW2;	// mutex for maximum 2 current r/w
-	HANDLE hMsgA, hMsgB;	// msg events
-	HANDLE hEndW, hEndR;	// end session events
+	HANDLE hMutexReader, hMutexWriter;	// mutex for r/w
+	HANDLE hMsgEvent;	// msg event
+	HANDLE hEndReaderEvent, hEndWriterEvent;	// end session events
 	int msgCount, processCount;	// messages count, r/w count
 
 	cout << "Enter number of Readers/Writers" << endl;
@@ -23,12 +23,10 @@ int main()
 	cout << "Enter number of messages: " << endl;
 	msgCount = getCount(1, 5);
 
-	hMutexR1 = CreateMutex(NULL, FALSE, L"MutexR1");
-	hMutexR2 = CreateMutex(NULL, FALSE, L"MutexR2");
-	hMutexW1 = CreateMutex(NULL, FALSE, L"MutexW1");
-	hMutexW2 = CreateMutex(NULL, FALSE, L"MutexW2");
+	hMutexReader = CreateMutex(NULL, FALSE, L"MutexReader");
+	hMutexWriter = CreateMutex(NULL, FALSE, L"MutexWriter");
 
-	if (hMutexR1 == NULL || hMutexR2 == NULL || hMutexW1 == NULL || hMutexW2 == NULL)
+	if (hMutexReader == NULL || hMutexWriter == NULL)
 	{
 		cout << "Create mutex failed." << endl;
 		cout << "Press any key to exit." << endl;
@@ -36,13 +34,11 @@ int main()
 		return GetLastError();
 	}
 
-	hMsgA = CreateEvent(NULL, TRUE, FALSE, L"MessageA");
-	hMsgB = CreateEvent(NULL, TRUE, FALSE, L"MessageB");
+	hMsgEvent = CreateEvent(NULL, TRUE, FALSE, L"MessageEvent");
+	hEndWriterEvent = CreateEvent(NULL, TRUE, FALSE, L"EndWriteEvent");
+	hEndReaderEvent = CreateEvent(NULL, TRUE, FALSE, L"EndReaderEvent");
 
-	hEndW = CreateEvent(NULL, TRUE, FALSE, L"EndW");
-	hEndR = CreateEvent(NULL, TRUE, FALSE, L"EndR");
-
-	if (hMsgA == NULL || hMsgB == NULL || hEndW == NULL || hEndR == NULL)
+	if (hMsgEvent == NULL || hEndWriterEvent == NULL || hEndReaderEvent == NULL)
 	{
 		cout << "Create event failed." << endl;
 		cout << "Press any key to exit." << endl;
@@ -65,7 +61,7 @@ int main()
 		si2.cb = sizeof(STARTUPINFO);
 
 		// start writer and reader
-		LPCWSTR lpszReaderName = L"E:\\project\\computer-science\\operation-systems\\lab2\\Administrator\\Debug\\Reader.exe";
+		LPCWSTR lpszReaderName = L"Reader.exe";
 		if (!CreateProcess(lpszReaderName, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si2, &pi2)) {
 			cout << "The new Reader process is not created." << endl;
 			cout << "Press any key to exit." << endl;
@@ -73,7 +69,7 @@ int main()
 			return GetLastError();
 		}
 
-		LPCWSTR lpszWritterName = L"E:\\project\\computer-science\\operation-systems\\lab2\\Administrator\\Debug\\Writer.exe";
+		LPCWSTR lpszWritterName = L"Writer.exe";
 		if (!CreateProcess(lpszWritterName, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))	{
 			cout << "The new Writer process is not created." << endl;
 			cout << "Press2 any key to exit." << endl;
@@ -84,30 +80,27 @@ int main()
 
 	// open end session events
 	int ends = 0;
-	HANDLE hEnd[2];
-	hEnd[0] = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"EndW");
-	hEnd[1] = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"EndR");
+	HANDLE hEndEvents[2];
+	hEndEvents[0] = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"EndWriteEvent");
+	hEndEvents[1] = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"EndReaderEvent");
 
 	while (ends < processCount)	// wait all sessions end
 	{
-		WaitForMultipleObjects(2, hEnd, TRUE, INFINITE);
-		ResetEvent(hEnd[0]);	// reset events for next session
-		ResetEvent(hEnd[1]);
+		WaitForMultipleObjects(2, hEndEvents, TRUE, INFINITE);
+		ResetEvent(hEndEvents[0]);	// reset events for next session
+		ResetEvent(hEndEvents[1]);
 		ends++;
 		cout << "Writer and Reader session closed" << endl;
 	}
 
 
 	// close all handles
-	CloseHandle(hMutexR1);
-	CloseHandle(hMutexR2);
-	CloseHandle(hMutexW1);
-	CloseHandle(hMutexW2);
+	CloseHandle(hMutexReader);
+	CloseHandle(hMutexWriter);
 
-	CloseHandle(hMsgA);
-	CloseHandle(hMsgB);
-	CloseHandle(hEndW);
-	CloseHandle(hEndR);
+	CloseHandle(hMsgEvent);
+	CloseHandle(hEndWriterEvent);
+	CloseHandle(hEndReaderEvent);
 
 	return 0;
 }

@@ -12,12 +12,11 @@ constexpr auto MAX_BUF = 256;
 using namespace std;
 
 int main() {
-	HANDLE hMutex[2];
-	HANDLE hMsg, hEnd;
-	hMutex[0] = OpenMutex(SYNCHRONIZE, FALSE, L"MutexW1");
-	hMutex[1] = OpenMutex(SYNCHRONIZE, FALSE, L"MutexW2");
+	HANDLE hMutexWriter;
+	HANDLE hMsgEvent, hEndEvent;
 
-	if (hMutex[0] == NULL || hMutex[1] == NULL) {
+	hMutexWriter = OpenMutex(SYNCHRONIZE, FALSE, L"MutexWriter");
+	if (hMutexWriter == NULL) {
 		cout << "Open mutex failed." << endl;
 		cout << "Press any key to exit." << endl;
 		cin.get();
@@ -31,21 +30,19 @@ int main() {
 
 	cout << "Waiting for ending other Writers..." << endl;
 
-	while (true) {
-		if (WaitForSingleObject(hMutex[0], 500) == WAIT_OBJECT_0) {
-			hMsg = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"MessageA");
-			strcpy_s(fName, "MessageA.txt");
-			break;
-		}
-		if (WaitForSingleObject(hMutex[1], 500) == WAIT_OBJECT_0) {
-			hMsg = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"MessageB");
-			strcpy_s(fName, "MessageB.txt");
-			break;
-		}
+	if (!WaitForSingleObject(hMutexWriter, INFINITE) == WAIT_OBJECT_0) {
+		cout << "Wait for single object failed." << endl;
+		cout << "Press any key to exit." << endl;
+		cin.get();
+		return GetLastError();
 	}
 
-	hEnd = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"EndW");
-	if (hMsg == NULL || hEnd == NULL) {
+	hMsgEvent = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"MessageEvent");
+	strcpy_s(fName, "Message.txt");
+
+	hEndEvent = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"EndWriteEvent");
+
+	if (hMsgEvent == NULL || hEndEvent == NULL) {
 		cout << "Open event failed." << endl;
 		cout << "Press any key to exit." << endl;
 		cin.get();
@@ -67,17 +64,15 @@ int main() {
 		fwrite(buf, sizeof(TCHAR), _tcslen(buf), stream);
 		fclose(stream);
 		cout << "Sending message..." << endl;
-		SetEvent(hMsg);
+		SetEvent(hMsgEvent);
 		Sleep(1000);
 		i++;
 	}
 
-	SetEvent(hEnd);
-	ReleaseMutex(hMutex[0]);
-	ReleaseMutex(hMutex[1]);
-	CloseHandle(hMutex[0]);
-	CloseHandle(hMutex[1]);
-	CloseHandle(hMsg);
-	CloseHandle(hEnd);
+	SetEvent(hEndEvent);
+	ReleaseMutex(hMutexWriter);
+	CloseHandle(hMutexWriter);
+	CloseHandle(hMsgEvent);
+	CloseHandle(hEndEvent);
 	return 0;
 }

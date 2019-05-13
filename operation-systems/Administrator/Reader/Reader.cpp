@@ -12,42 +12,36 @@ using namespace std;
 
 int main()
 {
-	HANDLE hMutex[2];
-	HANDLE hMsg, hEnd;
+	HANDLE hMutexReader;
+	HANDLE hMsgEvent, hEndEvent;
 
-	hMutex[0] = OpenMutex(SYNCHRONIZE, FALSE, L"MutexR1");
-	hMutex[1] = OpenMutex(SYNCHRONIZE, FALSE, L"MutexR2");
+	hMutexReader = OpenMutex(SYNCHRONIZE, FALSE, L"MutexReader");
 
-	if (hMutex[0] == NULL || hMutex[1] == NULL) {
+	if (hMutexReader == NULL) {
 		cout << "Open mutex failed." << endl;
 		cout << "Press any key to exit." << endl;
 		cin.get();
 		return GetLastError();
 	}
 
-
 	FILE *f;	// file w/ message
 	char fName[16];	// filename
 
 	cout << "Waiting for ending other Readers..." << endl;
-	while (true)	// while all mutex' is busy
-	{
-		if (WaitForSingleObject(hMutex[0], 500) == WAIT_OBJECT_0)
-		{
-			hMsg = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"MessageA");	// open MessageA event
-			strcpy(fName, "MessageA.txt");
-			break;
-		}
-		if (WaitForSingleObject(hMutex[1], 500) == WAIT_OBJECT_0)	// same fro B
-		{
-			hMsg = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"MessageB");
-			strcpy(fName, "MessageB.txt");
-			break;
-		}
+
+	if (!WaitForSingleObject(hMutexReader, INFINITE) == WAIT_OBJECT_0) {
+		cout << "Wait for single object failed." << endl;
+		cout << "Press any key to exit." << endl;
+		cin.get();
+		return GetLastError();
 	}
 
-	hEnd = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"EndR");	// open end reader event
-	if (hMsg == NULL || hEnd == NULL) {
+	hMsgEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, L"MessageEvent");	// open MessageA event
+	strcpy(fName, "Message.txt");
+
+	hEndEvent = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"EndReaderEvent");	// open end reader event
+
+	if (hMsgEvent == NULL || hEndEvent == NULL) {
 		cout << "Open event failed." << endl;
 		cout << "Press any key to exit." << endl;
 		cin.get();
@@ -64,7 +58,7 @@ int main()
 	{
 		cout << "Waiting message...\r\n" << endl;
 
-		DWORD dwRes = WaitForSingleObject(hMsg, INFINITE);
+		DWORD dwRes = WaitForSingleObject(hMsgEvent, INFINITE);
 		if (dwRes != WAIT_OBJECT_0) {
 			cout << "Wait for single object failed\r\nERROR: %d ERRORCODE: %d" << endl;
 			cout << dwRes << endl;
@@ -78,20 +72,18 @@ int main()
 
 		_tprintf(L"Message recieved: %s\r\n", buf);	// print msg
 
-		ResetEvent(hMsg);	// reset event, wait new msg
+		ResetEvent(hMsgEvent);	// reset event, wait new msg
 		i++;
 	}
 
-	SetEvent(hEnd);	// end reader process
+	SetEvent(hEndEvent);	// end reader process
 	cout << "All messages was received" << endl;
 	Sleep(5000);
 	// close handles
-	ReleaseMutex(hMutex[0]);
-	ReleaseMutex(hMutex[1]);
-	CloseHandle(hMutex[0]);
-	CloseHandle(hMutex[1]);
-	CloseHandle(hMsg);
-	CloseHandle(hEnd);
+	ReleaseMutex(hMutexReader);
+	CloseHandle(hMutexReader);
+	CloseHandle(hMsgEvent);
+	CloseHandle(hEndEvent);
 
 	return 0;
 }
