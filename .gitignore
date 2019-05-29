@@ -4,7 +4,7 @@
 
 compilers/simple-precedence-grammar/target
 compilers/simple-precedence-grammar/.idea
-compilers/simple-precedence-grammar/scheduler.iml
+compilers/simple-precedence-grammar/simple-precedence-grammar.iml
 
 compilers/lexical-analyzer/target
 compilers/lexical-analyzer/.idea
@@ -25,3 +25,7 @@ compilers/lexical-analyzer/lexical-analyzer.iml
 /operation-systems/Administrator/Administrator/x64
 /operation-systems/Administrator/Reader/x64
 /operation-systems/Administrator/Writer/x64
+
+compilers/syntax-analyzer/target
+compilers/syntax-analyzer/.idea
+compilers/syntax-analyzer/syntax-analyzer.iml
