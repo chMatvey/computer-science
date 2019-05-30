@@ -91,33 +91,38 @@ class SyntaxAnalyzer {
         var index = 0;
         val operators: MutableList<MutableList<Token>> = mutableListOf()
 
-        if (tokens[index].name == Tag.ID) {
-            val assigning = mutableListOf<Token>()
+        while (index < tokens.size) {
+            if (tokens[index].name == Tag.ID) {
+                val assigning = mutableListOf<Token>()
 
-            while (index < tokens.size) {
-                assigning.add(tokens[index])
+                while (index < tokens.size) {
+                    assigning.add(tokens[index])
 
-                index++
-                if (tokens[index].isIdOrNumber() && assigning.last().isIdOrNumber()) break
+                    index++
+                    if (index == tokens.size) break
+                    if (tokens[index].name == Tag.IF) break
+                    if (tokens[index].isIdOrNumber() && assigning.last().isIdOrNumber()) break
+                }
+                operators.add(assigning)
+            } else if (tokens[index].name == Tag.IF) {
+                val difficultOperator = mutableListOf<Token>()
+
+                var wasElse = false
+
+                while (index < tokens.size) {
+                    difficultOperator.add(tokens[index])
+
+                    if (difficultOperator.last().name == Tag.ELSE) wasElse = true
+                    if (wasElse && difficultOperator.last().attribute == "end") break
+
+                    index++
+                    if (index == tokens.size) break
+                    if (tokens[index].isIdOrNumber() && difficultOperator.last().isIdOrNumber() && wasElse) break
+                }
+                operators.add(difficultOperator)
+            } else {
+                return null
             }
-            operators.add(assigning)
-        } else if (tokens[index].name == Tag.IF) {
-            val difficultOperator = mutableListOf<Token>()
-
-            var wasElse = false
-
-            while (index < tokens.size) {
-                difficultOperator.add(tokens[index])
-
-                if (difficultOperator.last().name == Tag.ELSE) wasElse = true
-                if (wasElse && difficultOperator.last().attribute == "end") break
-
-                index++
-                if (tokens[index].isIdOrNumber() && difficultOperator.last().isIdOrNumber() && wasElse) break
-            }
-            operators.add(difficultOperator)
-        } else {
-            return null
         }
 
         operators.forEach { result.nodes.add(getOperator(it) ?: return null) }
@@ -126,7 +131,7 @@ class SyntaxAnalyzer {
     }
 
     private fun getOperator(tokens: List<Token>): Symbol? {
-        return if (tokens.contains(Token(Tag.IF, "if"))) {
+        return if (tokens.first().name == Tag.IF) {
             getDifficultOperator(tokens)
         } else {
             getAssignment(tokens)
@@ -176,23 +181,80 @@ class SyntaxAnalyzer {
         } else if (tokens.size == 1) {
             return getOperand(tokens.first())
         } else {
+            val binaryOperator = tokens.firstOrNull { it.name == Tag.OPERATION } ?: return null
+            val leftSubexpression = tokens.takeWhile { it != binaryOperator }
+            val rightSubExpression = tokens.takeLastWhile { it != binaryOperator }
 
+            result.nodes.add(getSubexpression(leftSubexpression) ?: return null)
+            result.nodes.add(getBinaryOperation(binaryOperator) ?: return null)
+            result.nodes.add(getSubexpression(rightSubExpression) ?: return null)
         }
 
         return result
     }
 
     private fun getOperand(token: Token): Symbol? {
-        return null
+        return if (token.name == Tag.ID || token.name == Tag.NUMBER) {
+            Leaf(token, "operand")
+        } else {
+            null
+        }
     }
 
     private fun getDifficultOperator(tokens: List<Token>): Symbol? {
-        return null
+        val result = Node("difficult operator")
+
+        val ifToken = tokens.firstOrNull { it.name == Tag.IF } ?: return null
+        val openBracketToken = tokens.firstOrNull { it.attribute == "(" } ?: return null
+        val closeBracketToken = tokens.firstOrNull { it.attribute == ")" } ?: return null
+        val conditionTokens = tokens.takeLastWhile { it != openBracketToken }.takeWhile { it != closeBracketToken }
+        val trueOperatorTokens = tokens.takeLastWhile { it != closeBracketToken }.takeWhile { it.name != Tag.ELSE }
+
+        result.nodes.add(Leaf(ifToken, "key word"))
+        result.nodes.add(Leaf(openBracketToken, "open bracket"))
+        result.nodes.add(getExpression(conditionTokens) ?: return null)
+        result.nodes.add(Leaf(closeBracketToken, "close bracket"))
+        result.nodes.add(getCompositeOperator(trueOperatorTokens) ?: return null)
+
+        if (tokens.any { it.name == Tag.ELSE }) {
+            val elseToken = tokens.firstOrNull { it.name == Tag.ELSE } ?: return null
+            val falseOperatorTokens = tokens.takeLastWhile { it != elseToken }
+
+            result.nodes.add(Leaf(elseToken, "key word"))
+            result.nodes.add(getCompositeOperator(falseOperatorTokens) ?: return null)
+        }
+
+        return result
+    }
+
+    private fun getCompositeOperator(tokens: List<Token>): Symbol? {
+        if (!tokens.any { it.attribute == "begin" }) return getOperator(tokens)
+
+        val result = Node("Composite operator")
+
+        val beginToken = tokens.firstOrNull { it.attribute == "begin" } ?: return null
+        val endToken = tokens.lastOrNull { it.attribute == "end" } ?: return null
+        val listOperatorsTokens = tokens.takeLastWhile { it != beginToken }.takeWhile { it != endToken }
+
+        result.nodes.add(Leaf(beginToken, "key word"))
+        result.nodes.add(getListOperators(listOperatorsTokens) ?: return null)
+        result.nodes.add(Leaf(endToken, "key word"))
+
+        return result
+    }
+
+
+    private fun getBinaryOperation(token: Token): Symbol? {
+        return if (token.name == Tag.OPERATION) {
+            Leaf(token, "binary operation")
+        } else {
+            null
+        }
     }
 
     private fun getId(token: Token): Symbol? {
         return if (token.name == Tag.ID) {
-            Leaf(token, "variable")
+            Leaf(token, "id")
         } else {
             null
         }
