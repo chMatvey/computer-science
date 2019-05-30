@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<node description="program">
+    <node description="declaration of variables">
+        <leaf description="key word">
+            <token>
+                <name>VAR</name>
+                <attribute>var</attribute>
+            </token>
+        </leaf>
+        <node description="list of variables">
+            <leaf description="variable">
+                <token>
+                    <name>ID</name>
+                    <attribute>x</attribute>
+                </token>
+            </leaf>
+            <leaf description="variable">
+                <token>
+                    <name>ID</name>
+                    <attribute>y</attribute>
+                </token>
+            </leaf>
+        </node>
+    </node>
+    <node description="description of computing">
+        <leaf description="key word">
+            <token>
+                <name>ID</name>
+                <attribute>begin</attribute>
+            </token>
+        </leaf>
+        <node description="list of operators">
+            <node description="assigment">
+                <leaf description="variable">
+                    <token>
+                        <name>ID</name>
+                        <attribute>x</attribute>
+                    </token>
+                </leaf>
+                <leaf description="key word">
+                    <token>
+                        <name>OPERATION</name>
+                        <attribute>:=</attribute>
+                    </token>
+                </leaf>
+                <node description="subexpression"/>
+            </node>
+        </node>
+        <leaf description="key word">
+            <token>
+                <name>ID</name>
+                <attribute>end</attribute>
+            </token>
+        </leaf>
+    </node>
+</node>

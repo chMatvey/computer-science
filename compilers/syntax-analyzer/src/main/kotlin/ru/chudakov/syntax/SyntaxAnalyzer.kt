@@ -8,6 +8,10 @@ import ru.chudakov.syntax.tree.Symbol
 
 class SyntaxAnalyzer {
 
+    fun parse(tokens: List<Token>): Symbol? {
+        return getProgram(tokens)
+    }
+
     private fun getProgram(tokens: List<Token>): Symbol? {
         val result = Node("program")
 
@@ -150,12 +154,35 @@ class SyntaxAnalyzer {
         val restTokens = if (unaryOperation != null) tokens.subList(1, tokens.size) else tokens
         val subexpression = getSubexpression(restTokens) ?: return null
 
-        unaryOperation?.let { result.nodes.add(Leaf(it, "Unary operation")) }
-        result.nodes.add(subexpression)
+        unaryOperation?.let {
+            result.nodes.add(Leaf(it, "Unary operation"))
+            result.nodes.add(subexpression)
+        } ?: return subexpression
+
         return result
     }
 
     private fun getSubexpression(tokens: List<Token>): Symbol? {
+        val result = Node("subexpression")
+
+        if (tokens.first().attribute == "(" && tokens.last().attribute == ")") {
+            val openBracket = tokens.first()
+            val closeBracket = tokens.last()
+            val expression = getExpression(tokens.subList(1, tokens.size - 1)) ?: return null
+
+            result.nodes.add(Leaf(openBracket, "("))
+            result.nodes.add(expression)
+            result.nodes.add(Leaf(closeBracket, ")"))
+        } else if (tokens.size == 1) {
+            return getOperand(tokens.first())
+        } else {
+
+        }
+
+        return result
+    }
+
+    private fun getOperand(token: Token): Symbol? {
         return null
     }
 
