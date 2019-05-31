@@ -55,31 +55,42 @@ class Lexer {
         var line = 1
 
         while (i != tokens.size) {
-            if (tokens[i] == "\n") {
-                line++
-            } else if (tokens[i] == "\t" || tokens[i] == "\r" || tokens[i] == " ") {
-            } else if (tokens[i] == ":" && tokens[i + 1] == "=") {
-                table.add(Lexeme(words[":="]!!, line))
-                i++
-            } else if (tokens[i].isInt()) {
-                val num = IntNum(tokens[i].toInt())
-                table.add(Lexeme(num, line))
-            } else if (tokens[i].isDouble()) {
-                val num = DoubleNum(tokens[i].toDouble())
-                table.add(Lexeme(num, line))
-            } else if (checkLeftShift(tokens, i)) {
-                table.add(Lexeme(words["<<"]!!, line))
-                i++
-            } else if (checkRightShift(tokens, i)) {
-                table.add(Lexeme(words[">>"]!!, line))
-                i++
-            } else if (words.containsKey(tokens[i])) {
-                val token = words.getOrDefault(tokens[i], Word(Tag.ID, tokens[i]))
-                table.add(Lexeme(token, line))
-            } else if (tokens[i].isVariable()) {
-                table.add(Lexeme(Word(Tag.ID, tokens[i]), line))
-            } else {
-                table.add(Lexeme(Error(tokens[i], "Недопустимое имя переменной"), line))
+            when {
+                tokens[i] == "\n" -> {
+                    line++
+                }
+                tokens[i] == "\t" || tokens[i] == "\r" || tokens[i] == " " -> {
+                }
+                tokens[i] == ":" && tokens[i + 1] == "=" -> {
+                    table.add(Lexeme(words[":="]!!, line))
+                    i++
+                }
+                tokens[i].isInt() -> {
+                    val num = IntNum(tokens[i].toInt())
+                    table.add(Lexeme(num, line))
+                }
+                tokens[i].isDouble() -> {
+                    val num = DoubleNum(tokens[i].toDouble())
+                    table.add(Lexeme(num, line))
+                }
+                checkLeftShift(tokens, i) -> {
+                    table.add(Lexeme(words["<<"]!!, line))
+                    i++
+                }
+                checkRightShift(tokens, i) -> {
+                    table.add(Lexeme(words[">>"]!!, line))
+                    i++
+                }
+                words.containsKey(tokens[i]) -> {
+                    val token = words.getOrDefault(tokens[i], Word(Tag.ID, tokens[i]))
+                    table.add(Lexeme(token, line))
+                }
+                tokens[i].isVariable() -> {
+                    table.add(Lexeme(Word(Tag.ID, tokens[i]), line))
+                }
+                else -> {
+                    table.add(Lexeme(Error(tokens[i], "Недопустимое имя переменной"), line))
+                }
             }
             i++
         }

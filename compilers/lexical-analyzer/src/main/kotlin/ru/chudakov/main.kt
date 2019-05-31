@@ -7,14 +7,12 @@ import java.io.File
 
 fun main() {
     val lexer = Lexer()
-    val expression = readFileDirectlyAsText("E:\\project\\computer-science\\compilers\\lexical-analyzer\\example.txt")
+    val expression = readFileDirectlyAsText("example.txt")
 
     val table = lexer.scan(expression)
 
     table.getLexemes().forEach {
-        var errorMessage = ""
-        if (it.token is Error) errorMessage = it.token.description
-        System.out.println("Лексема: " + it.getValue() + "; " + it.getTag() + "; Строка " + it.line +  "; " + errorMessage)
+        System.out.println("Лексема: ${it.getValue()};  + ${it.getTag()}; Строка ${it.line}; ${if (it.token is Error) it.token.description else ""}")
     }
 }
 

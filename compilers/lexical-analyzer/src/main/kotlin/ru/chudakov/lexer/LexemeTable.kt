@@ -32,27 +32,33 @@ class LexemeTable {
             }
         }
 
-        if (isLastUnaryOperation) {
-            if (!(lexeme.getTag() == Tag.ID || lexeme.getTag() == Tag.UNARY_OPERATION
-                    || lexeme.getTag() == Tag.INT_NUM || lexeme.getTag() == Tag.DOUBLE_NUM )) {
-                val last = lexemes.removeAt(lexemes.size - 1)
-                lexemes.add(Lexeme(Error(last.getValue(), unaryError), last.line))
+        when {
+            isLastUnaryOperation -> {
+                if (!(lexeme.getTag() == Tag.ID || lexeme.getTag() == Tag.UNARY_OPERATION
+                                || lexeme.getTag() == Tag.INT_NUM || lexeme.getTag() == Tag.DOUBLE_NUM)) {
+                    val last = lexemes.removeAt(lexemes.size - 1)
+                    lexemes.add(Lexeme(Error(last.getValue(), unaryError), last.line))
+                }
             }
-        } else if (isLastBinaryOperation) {
-            if (lexeme.getTag() != Tag.INT_NUM && lexeme.getTag() != Tag.DOUBLE_NUM && lexeme.getTag() != Tag.ID) {
-                val last = lexemes.removeAt(lexemes.size - 1)
-                lexemes.add(Lexeme(Error(last.getValue(), binaryError), last.line))
+            isLastBinaryOperation -> {
+                if (lexeme.getTag() != Tag.INT_NUM && lexeme.getTag() != Tag.DOUBLE_NUM && lexeme.getTag() != Tag.ID) {
+                    val last = lexemes.removeAt(lexemes.size - 1)
+                    lexemes.add(Lexeme(Error(last.getValue(), binaryError), last.line))
+                }
             }
-        } else if (lexeme.getValue() == ":=") {
-            if (lexemes.last().getTag() !=  Tag.ID) {
-                item = Lexeme(Error(lexeme.getValue(), assignmentError), lexeme.line)
+            lexeme.getValue() == ":=" -> {
+                if (lexemes.last().getTag() != Tag.ID) {
+                    item = Lexeme(Error(lexeme.getValue(), assignmentError), lexeme.line)
+                }
             }
-        } else if (lexeme.getTag() == Tag.BINARY_OPERATION) {
-            if (lexemes.last().getTag() !=  Tag.ID && lexemes.last().getTag() !=  Tag.DOUBLE_NUM &&
-                    lexemes.last().getTag() !=  Tag.INT_NUM) {
-                item = Lexeme(Error(lexeme.getValue(), binaryError), lexeme.line)
+            lexeme.getTag() == Tag.BINARY_OPERATION -> {
+                if (lexemes.last().getTag() != Tag.ID && lexemes.last().getTag() != Tag.DOUBLE_NUM &&
+                        lexemes.last().getTag() != Tag.INT_NUM) {
+                    item = Lexeme(Error(lexeme.getValue(), binaryError), lexeme.line)
+                }
             }
         }
+
 
         when (item.getTag()) {
             Tag.BINARY_OPERATION -> isLastBinaryOperation = true

@@ -2,7 +2,7 @@ package ru.chudakov
 
 import ru.chudakov.collection.PrecedenceMatrix
 
-class SimplePrecedenceGrammar(private val rules: HashMap<Char, List<List<Char>>>,  private val matrix: PrecedenceMatrix) : Grammar {
+class SimplePrecedenceGrammar(private val rules: HashMap<Char, List<List<Char>>>,  private val matrix: PrecedenceMatrix) {
 
     fun getRelation(left: Char, right: Char): PrecedenceRelation {
         if (!matrix.symbols.contains(left) || !matrix.symbols.contains(right)) {
@@ -30,11 +30,11 @@ class SimplePrecedenceGrammar(private val rules: HashMap<Char, List<List<Char>>>
         return null
     }
 
-    override fun getBeginSymbol(): Char {
+    fun getBeginSymbol(): Char {
         return matrix.symbols.first()
     }
 
-    override fun getSymbols(): Array<Char> {
+    fun getSymbols(): Array<Char> {
         return matrix.symbols
     }
 }
