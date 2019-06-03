@@ -6,15 +6,23 @@ import ru.chudakov.lexical.token.Token
 class Tokenizer {
     private val finiteAutomates: MutableMap<Tag, (str: String) -> AutomateState> = mutableMapOf()
 
+    private val isSeparator = Regex("(begin|end|\\(|\\)|,)")
     private val isId = Regex("[a-zA-Z]+\\w*")
     private val isNumber = Regex("[0-9]+")
     private val isWord = Regex("\\w*")
     private val isOperation = Regex("(\\+|-|\\*|/|<|>|<<|>>|:=)")
-    private val isSeparator = Regex("(begin|end|\\(|\\)|,)")
     private val isIf = Regex("if(\\s|\t|\n|\\()")
     private val isElse = Regex("else(\\s|\t|\n)")
 
     init {
+        finiteAutomates[Tag.SEPARATOR] = { str: String ->
+            when {
+                isSeparator.matches(str) -> AutomateState.FINAL
+                "end".startsWith(str) -> AutomateState.ACTIVE
+                "begin".startsWith(str) -> AutomateState.ACTIVE
+                else -> AutomateState.ERROR
+            }
+        }
         finiteAutomates[Tag.VAR] = { str: String ->
             when {
                 str == "var " -> AutomateState.FINAL
@@ -61,14 +69,6 @@ class Tokenizer {
                 else -> AutomateState.ERROR
             }
         }
-        finiteAutomates[Tag.SEPARATOR] = { str: String ->
-            when {
-                isSeparator.matches(str) -> AutomateState.FINAL
-                "end".startsWith(str) -> AutomateState.ACTIVE
-                "begin".startsWith(str) -> AutomateState.ACTIVE
-                else -> AutomateState.ERROR
-            }
-        }
     }
 
     fun getTokens(expression: String): List<Token> {
@@ -76,10 +76,10 @@ class Tokenizer {
         val chars = expression.toCharArray()
 
         var index = 0
+        var isCorrectToken = false
 
         while (index < chars.size) {
             for (it in finiteAutomates) {
-
                 while (index < chars.size && chars[index].isSpace()) {
                     index++
                 }
@@ -102,11 +102,23 @@ class Tokenizer {
                 if (lastState == AutomateState.FINAL) {
                     val attribute = if (index < chars.size) str.substring(0, str.length - 1) else str
                     result.add(Token(it.key, attribute))
+                    isCorrectToken = true
                     break
                 } else {
                     index -= (str.length - 1)
                 }
             }
+
+            if (!isCorrectToken) {
+                var str = ""
+                while (index < chars.size && !chars[index].isSpace()) {
+                    str += chars[index]
+                    index++
+                }
+                result.add(Token(Tag.ERROR, str))
+            }
+
+            isCorrectToken = false
         }
 
         return result

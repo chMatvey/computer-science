@@ -4,5 +4,9 @@ begin
 	x:= y << 1
 	y:=3
 	if (x>0) y := 1
-	else y := 0
+	else
+	    begin
+	        y := 0
+	        x := 3
+	    end
 end

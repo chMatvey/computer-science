@@ -10,11 +10,9 @@ enum class Tag {
     NUMBER,
     WORD,
     OPERATION,
-    UNARY_OPERATION,
     SEPARATOR,
     VAR,
     IF,
     ELSE,
     ERROR,
-    PROGRAM
 }

@@ -117,7 +117,9 @@ class SyntaxAnalyzer {
 
                     index++
                     if (index == tokens.size) break
-                    if (tokens[index].isIdOrNumber() && difficultOperator.last().isIdOrNumber() && wasElse) break
+
+                    val size = difficultOperator.size
+                    if (tokens[index].isIdOrNumber() && difficultOperator[size - 1].isIdOrNumber() && wasElse) break
                 }
                 operators.add(difficultOperator)
             } else {
