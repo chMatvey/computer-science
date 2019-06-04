@@ -9,6 +9,8 @@ import ru.chudakov.syntax.tree.Symbol
 class SyntaxAnalyzer {
 
     fun parse(tokens: List<Token>): Symbol? {
+        if (tokens.any { it.name == Tag.ERROR }) return null
+
         return getProgram(tokens)
     }
 
@@ -108,18 +110,20 @@ class SyntaxAnalyzer {
                 val difficultOperator = mutableListOf<Token>()
 
                 var wasElse = false
+                var isCompositeElseBlock = false
 
                 while (index < tokens.size) {
                     difficultOperator.add(tokens[index])
 
                     if (difficultOperator.last().name == Tag.ELSE) wasElse = true
-                    if (wasElse && difficultOperator.last().attribute == "end") break
+                    if (wasElse && difficultOperator.last().attribute == "begin") isCompositeElseBlock = true
 
                     index++
                     if (index == tokens.size) break
 
-                    val size = difficultOperator.size
-                    if (tokens[index].isIdOrNumber() && difficultOperator[size - 1].isIdOrNumber() && wasElse) break
+                    if (wasElse && difficultOperator.last().attribute == "end") break
+                    if (tokens[index].isIdOrNumber() && difficultOperator.last().isIdOrNumber()
+                            && wasElse && !isCompositeElseBlock) break
                 }
                 operators.add(difficultOperator)
             } else {
@@ -244,7 +248,6 @@ class SyntaxAnalyzer {
 
         return result
     }
-
 
     private fun getBinaryOperation(token: Token): Symbol? {
         return if (token.name == Tag.OPERATION) {

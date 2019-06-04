@@ -20,6 +20,7 @@ class TokenizerTest {
 
     @Test
     fun getTokens() {
+        val tokens = tokenizer.getTokens(expression)
         tokenizer.getTokens(expression).forEach {
             println(it)
         }

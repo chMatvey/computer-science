@@ -109,7 +109,7 @@ class Tokenizer {
                 }
             }
 
-            if (!isCorrectToken) {
+            if (!isCorrectToken && index != chars.size) {
                 var str = ""
                 while (index < chars.size && !chars[index].isSpace()) {
                     str += chars[index]
@@ -124,5 +124,5 @@ class Tokenizer {
         return result
     }
 
-    private fun Char.isSpace(): Boolean = this == ' ' || this == '\t' || this == '\n'
+    private fun Char.isSpace(): Boolean = this == ' ' || this == '\t' || this == '\n' || this == '\r'
 }

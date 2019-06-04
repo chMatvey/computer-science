@@ -13,12 +13,4 @@ class Lexeme(val token: Token, val line: Int) {
     fun getTag(): Tag {
         return token.tag
     }
-
-    override fun equals(other: Any?): Boolean {
-        var result = super.equals(other)
-        if (other is Lexeme) {
-            result = this.token.getValue() == other.token.getValue()
-        }
-        return result
-    }
 }

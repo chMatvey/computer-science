@@ -25,7 +25,7 @@
     <node description="description of computing">
         <leaf description="key word">
             <token>
-                <name>ID</name>
+                <name>SEPARATOR</name>
                 <attribute>begin</attribute>
             </token>
         </leaf>
@@ -146,26 +146,62 @@
                 <leaf description="key word">
                     <token>
                         <name>ELSE</name>
-                        <attribute>else</attribute>
+                        <attribute>else&#xD;</attribute>
                     </token>
                 </leaf>
-                <node description="assigment">
-                    <leaf description="id">
-                        <token>
-                            <name>ID</name>
-                            <attribute>y</attribute>
-                        </token>
-                    </leaf>
+                <node description="Composite operator">
                     <leaf description="key word">
                         <token>
-                            <name>OPERATION</name>
-                            <attribute>:=</attribute>
+                            <name>SEPARATOR</name>
+                            <attribute>begin</attribute>
                         </token>
                     </leaf>
-                    <leaf description="operand">
+                    <node description="list of operators">
+                        <node description="assigment">
+                            <leaf description="id">
+                                <token>
+                                    <name>ID</name>
+                                    <attribute>y</attribute>
+                                </token>
+                            </leaf>
+                            <leaf description="key word">
+                                <token>
+                                    <name>OPERATION</name>
+                                    <attribute>:=</attribute>
+                                </token>
+                            </leaf>
+                            <leaf description="operand">
+                                <token>
+                                    <name>NUMBER</name>
+                                    <attribute>0</attribute>
+                                </token>
+                            </leaf>
+                        </node>
+                        <node description="assigment">
+                            <leaf description="id">
+                                <token>
+                                    <name>ID</name>
+                                    <attribute>x</attribute>
+                                </token>
+                            </leaf>
+                            <leaf description="key word">
+                                <token>
+                                    <name>OPERATION</name>
+                                    <attribute>:=</attribute>
+                                </token>
+                            </leaf>
+                            <leaf description="operand">
+                                <token>
+                                    <name>NUMBER</name>
+                                    <attribute>3</attribute>
+                                </token>
+                            </leaf>
+                        </node>
+                    </node>
+                    <leaf description="key word">
                         <token>
-                            <name>NUMBER</name>
-                            <attribute>0</attribute>
+                            <name>SEPARATOR</name>
+                            <attribute>end</attribute>
                         </token>
                     </leaf>
                 </node>
@@ -173,7 +209,7 @@
         </node>
         <leaf description="key word">
             <token>
-                <name>ID</name>
+                <name>SEPARATOR</name>
                 <attribute>end</attribute>
             </token>
         </leaf>

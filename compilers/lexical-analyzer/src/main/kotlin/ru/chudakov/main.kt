@@ -12,7 +12,7 @@ fun main() {
     val table = lexer.scan(expression)
 
     table.getLexemes().forEach {
-        System.out.println("Лексема: ${it.getValue()};  + ${it.getTag()}; Строка ${it.line}; ${if (it.token is Error) it.token.description else ""}")
+        System.out.println("Лексема: ${it.getValue()}; + ${it.getTag()}; Строка ${it.line}; ${if (it.token is Error) it.token.description else ""}")
     }
 }
 
