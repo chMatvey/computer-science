@@ -11,25 +11,31 @@ fun main() {
         var line: String?
 
         line = it.readLine()
+
         val headers = line.split(",")
-        val timeIndex = headers.indexOf("Time")
-        val lengthIndex = headers.indexOf("Length")
+
+        val timeIndex = headers.indexOf("\"Time\"")
+        val lengthIndex = headers.indexOf("\"Length\"")
+
         line = it.readLine()
 
-        while (line != null) {
-            val tokens = line.split(",")
+        var lastTime: Double? = null
 
-            if (tokens.isNotEmpty()) {
-                lengths.add(tokens[lengthIndex].toInt())
-                times.add(times.lastOrNull() ?: tokens[timeIndex].toDouble() - tokens[timeIndex].toDouble())
-            }
+        while (line != null) {
+            val tokens = line.split(",").map { t -> t.substring(1, t.length - 1) }
+
+            lengths.add(tokens[lengthIndex].toInt())
+
+            val time = tokens[timeIndex].toDouble()
+            times.add(time - (lastTime ?: time))
+            lastTime = time
 
             line = it.readLine()
         }
     }
 
     for(i in 0..10) {
-        println("time: $times[i]")
-        println("length: $lengths[i]")
+        println("time: ${times[i]}")
+        println("length: ${lengths[i]}")
     }
 }
