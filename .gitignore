@@ -29,3 +29,7 @@ compilers/lexical-analyzer/lexical-analyzer.iml
 compilers/syntax-analyzer/target
 compilers/syntax-analyzer/.idea
 compilers/syntax-analyzer/syntax-analyzer.iml
+
+CDF-table-generator/target
+CDF-table-generator/.idea
+CDF-table-generator/CDF-table-generator.iml
