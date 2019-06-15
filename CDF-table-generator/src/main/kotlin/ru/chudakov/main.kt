@@ -5,11 +5,20 @@ import java.io.FileReader
 import java.io.FileWriter
 
 fun main() {
-    val inputData = readInputData("skype.csv")
+    val inputDataSkype = readInputData("skype.csv")
+    val inputDataYoutube = readInputData("youtube.csv")
 
-    val resultTime = generateCDF(inputData.first, 1000, 0.3) ?: throw Exception()
+    val resultTimeSkype = generateCDF(inputDataSkype.first, 10000) ?: throw Exception()
+    val resultSizeSkype = generateCDF(inputDataSkype.second.map { it.toDouble() }, 10000) ?: throw Exception()
 
-    writeResultData("result.csv", resultTime)
+    val resultTimeYoutube = generateCDF(inputDataYoutube.first, 10000) ?: throw Exception()
+    val resultSizeYoutube = generateCDF(inputDataYoutube.second.map { it.toDouble() }, 10000) ?: throw Exception()
+
+    writeResultData("skype_time.csv", resultTimeSkype)
+    writeResultData("skype_size.csv", resultSizeSkype)
+
+    writeResultData("youtube_time.csv", resultTimeYoutube)
+    writeResultData("youtube_size.csv", resultSizeYoutube)
 }
 
 fun readInputData(fileName: String): Pair<List<Double>, List<Int>> {
