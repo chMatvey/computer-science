@@ -1,3 +1,5 @@
+// replace extend by aggregation or composition
+
 class Server {
     constructor(ip, port) {
         this.ip = ip
