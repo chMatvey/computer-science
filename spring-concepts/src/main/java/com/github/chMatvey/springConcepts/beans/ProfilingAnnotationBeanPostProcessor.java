@@ -1,4 +1,4 @@
-package com.github.chMatvey.springConcepts.beanPostProcessor;
+package com.github.chMatvey.springConcepts.beans;
 
 import com.github.chMatvey.springConcepts.MBeans.ProfilingController;
 import org.springframework.beans.BeansException;

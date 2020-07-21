@@ -1,15 +1,15 @@
-package com.github.chMatvey.springConcepts.beanPostProcessor;
+package com.github.chMatvey.springConcepts.context.listener;
 
-import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.type.MethodMetadata;
 
 import java.lang.reflect.Method;
+
+import static com.github.chMatvey.springConcepts.util.BeanDefinitionUtil.getBeanClassName;
 
 public class PostProxyContextListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
@@ -22,15 +22,7 @@ public class PostProxyContextListener implements ApplicationListener<ContextRefr
 
         for (String name : names) {
             BeanDefinition beanDefinition = beanFactory.getBeanDefinition(name);
-            String originalClassName = null;
-            if (beanDefinition instanceof AnnotatedBeanDefinition) {
-                MethodMetadata factoryMethodMetadata = ((AnnotatedBeanDefinition) beanDefinition).getFactoryMethodMetadata();
-                if (factoryMethodMetadata != null) {
-                    originalClassName = factoryMethodMetadata.getReturnTypeName();
-                }
-            } else {
-                originalClassName = beanDefinition.getBeanClassName();
-            }
+            String originalClassName = getBeanClassName(beanDefinition);
 
             if (originalClassName != null) {
                 try {

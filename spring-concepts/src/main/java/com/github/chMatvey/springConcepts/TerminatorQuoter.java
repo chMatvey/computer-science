@@ -1,11 +1,13 @@
 package com.github.chMatvey.springConcepts;
 
-import com.github.chMatvey.springConcepts.beanPostProcessor.InjectRandomInt;
-import com.github.chMatvey.springConcepts.beanPostProcessor.PostProxy;
-import com.github.chMatvey.springConcepts.beanPostProcessor.Profiling;
+import com.github.chMatvey.springConcepts.beans.factory.DeprecatedClass;
+import com.github.chMatvey.springConcepts.beans.InjectRandomInt;
+import com.github.chMatvey.springConcepts.context.listener.PostProxy;
+import com.github.chMatvey.springConcepts.beans.Profiling;
 
 import javax.annotation.PostConstruct;
 
+@DeprecatedClass(newImpl = T1000.class)
 @Profiling
 public class TerminatorQuoter implements Quoter {
     @InjectRandomInt(min = 2, max = 5)
@@ -39,5 +41,9 @@ public class TerminatorQuoter implements Quoter {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
     }
 }
