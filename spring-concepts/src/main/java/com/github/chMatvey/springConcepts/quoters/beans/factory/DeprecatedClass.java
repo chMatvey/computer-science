@@ -1,4 +1,4 @@
-package com.github.chMatvey.springConcepts.beans.factory;
+package com.github.chMatvey.springConcepts.quoters.beans.factory;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,11 +1,11 @@
-package com.github.chMatvey.springConcepts.beans.factory;
+package com.github.chMatvey.springConcepts.quoters.beans.factory;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
-import static com.github.chMatvey.springConcepts.util.BeanDefinitionUtil.getBeanClassName;
+import static com.github.chMatvey.springConcepts.quoters.util.BeanDefinitionUtil.getBeanClassName;
 
 public class DeprecatedHandlerBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     @Override

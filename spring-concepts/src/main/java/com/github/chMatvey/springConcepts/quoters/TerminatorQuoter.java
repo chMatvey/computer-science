@@ -1,9 +1,9 @@
-package com.github.chMatvey.springConcepts;
+package com.github.chMatvey.springConcepts.quoters;
 
-import com.github.chMatvey.springConcepts.beans.factory.DeprecatedClass;
-import com.github.chMatvey.springConcepts.beans.InjectRandomInt;
-import com.github.chMatvey.springConcepts.context.listener.PostProxy;
-import com.github.chMatvey.springConcepts.beans.Profiling;
+import com.github.chMatvey.springConcepts.quoters.beans.factory.DeprecatedClass;
+import com.github.chMatvey.springConcepts.quoters.beans.InjectRandomInt;
+import com.github.chMatvey.springConcepts.quoters.context.listener.PostProxy;
+import com.github.chMatvey.springConcepts.quoters.beans.Profiling;
 
 import javax.annotation.PostConstruct;
 

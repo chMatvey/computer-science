@@ -1,4 +1,4 @@
-package com.github.chMatvey.springConcepts.beans;
+package com.github.chMatvey.springConcepts.quoters.beans;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

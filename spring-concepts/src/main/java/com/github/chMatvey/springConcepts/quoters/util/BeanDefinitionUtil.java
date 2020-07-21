@@ -1,4 +1,4 @@
-package com.github.chMatvey.springConcepts.util;
+package com.github.chMatvey.springConcepts.quoters.util;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;

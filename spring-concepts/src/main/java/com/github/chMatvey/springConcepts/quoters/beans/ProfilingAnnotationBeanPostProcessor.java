@@ -1,6 +1,6 @@
-package com.github.chMatvey.springConcepts.beans;
+package com.github.chMatvey.springConcepts.quoters.beans;
 
-import com.github.chMatvey.springConcepts.MBeans.ProfilingController;
+import com.github.chMatvey.springConcepts.quoters.MBeans.ProfilingController;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 

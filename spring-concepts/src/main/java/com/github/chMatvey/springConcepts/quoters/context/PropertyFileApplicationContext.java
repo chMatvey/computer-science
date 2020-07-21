@@ -1,6 +1,6 @@
-package com.github.chMatvey.springConcepts.context;
+package com.github.chMatvey.springConcepts.quoters.context;
 
-import com.github.chMatvey.springConcepts.TerminatorQuoter;
+import com.github.chMatvey.springConcepts.quoters.TerminatorQuoter;
 import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 

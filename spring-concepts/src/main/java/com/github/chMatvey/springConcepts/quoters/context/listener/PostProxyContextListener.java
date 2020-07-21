@@ -1,4 +1,4 @@
-package com.github.chMatvey.springConcepts.context.listener;
+package com.github.chMatvey.springConcepts.quoters.context.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -9,7 +9,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.lang.reflect.Method;
 
-import static com.github.chMatvey.springConcepts.util.BeanDefinitionUtil.getBeanClassName;
+import static com.github.chMatvey.springConcepts.quoters.util.BeanDefinitionUtil.getBeanClassName;
 
 public class PostProxyContextListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired

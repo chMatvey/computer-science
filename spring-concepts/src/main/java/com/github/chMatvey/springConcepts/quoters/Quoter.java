@@ -1,4 +1,4 @@
-package com.github.chMatvey.springConcepts;
+package com.github.chMatvey.springConcepts.quoters;
 
 public interface Quoter {
     public void sayQuote();

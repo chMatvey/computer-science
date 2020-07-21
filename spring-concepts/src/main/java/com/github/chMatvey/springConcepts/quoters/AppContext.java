@@ -1,9 +1,9 @@
-package com.github.chMatvey.springConcepts;
+package com.github.chMatvey.springConcepts.quoters;
 
-import com.github.chMatvey.springConcepts.beans.factory.DeprecatedHandlerBeanFactoryPostProcessor;
-import com.github.chMatvey.springConcepts.beans.InjectRandomIntAnnotationBeanPostProcessor;
-import com.github.chMatvey.springConcepts.context.listener.PostProxyContextListener;
-import com.github.chMatvey.springConcepts.beans.ProfilingAnnotationBeanPostProcessor;
+import com.github.chMatvey.springConcepts.quoters.beans.factory.DeprecatedHandlerBeanFactoryPostProcessor;
+import com.github.chMatvey.springConcepts.quoters.beans.InjectRandomIntAnnotationBeanPostProcessor;
+import com.github.chMatvey.springConcepts.quoters.context.listener.PostProxyContextListener;
+import com.github.chMatvey.springConcepts.quoters.beans.ProfilingAnnotationBeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
