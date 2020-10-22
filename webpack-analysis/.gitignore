@@ -5,3 +5,7 @@ package-lock.json
 dist
 
 *.zip
+
+.idea
+
+stats.json

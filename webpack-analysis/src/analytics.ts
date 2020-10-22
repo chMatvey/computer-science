@@ -1,10 +1,15 @@
 import * as $ from 'jquery'
 
-function createAnalytics() {
-    let counter = 0
-    let isDestroyed = false
+interface Analytic {
+    destroy: () => void,
+    getClicks: () => number
+}
 
-    const listener = () => counter++
+function createAnalytics(): Analytic {
+    let counter = 0
+    let isDestroyed  = false
+
+    const listener = (): number => counter++
 
     $(document).on('click', listener)
 
@@ -14,14 +19,13 @@ function createAnalytics() {
             isDestroyed = true
         },
 
-        getClicks() {
+        getClicks(): number {
             if (isDestroyed) {
-                return '-1'
+                return -1
             }
             return counter
         }
     }
 }
 
-window.analytics = createAnalytics()
-
+window['analytics'] = createAnalytics()
