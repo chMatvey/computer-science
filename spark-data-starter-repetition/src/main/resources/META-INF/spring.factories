@@ -1,0 +1,2 @@
+org.springframework.context.ApplicationContextInitializer=com.github.chudakov.starter.temp.SparkDataApplicationContextInitializer
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.github.chudakov.starter.StarterConf
