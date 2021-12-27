@@ -1,7 +1,7 @@
-package com.github.chMatvey.controller;
+package com.github.chMatvey.customer.controller;
 
-import com.github.chMatvey.controller.request.CustomerRegistrationRequest;
-import com.github.chMatvey.service.CustomerService;
+import com.github.chMatvey.customer.controller.request.CustomerRegistrationRequest;
+import com.github.chMatvey.customer.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

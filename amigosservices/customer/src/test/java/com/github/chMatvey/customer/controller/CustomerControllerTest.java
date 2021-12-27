@@ -1,8 +1,8 @@
-package com.github.chMatvey.controller;
+package com.github.chMatvey.customer.controller;
 
-import com.github.chMatvey.CustomerApplication;
-import com.github.chMatvey.controller.request.CustomerRegistrationRequest;
-import com.github.chMatvey.service.CustomerService;
+import com.github.chMatvey.customer.CustomerApplication;
+import com.github.chMatvey.customer.controller.request.CustomerRegistrationRequest;
+import com.github.chMatvey.customer.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static com.github.chMatvey.TestUtil.convertObjectToJsonBytes;
+import static com.github.chMatvey.customer.TestUtil.convertObjectToJsonBytes;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

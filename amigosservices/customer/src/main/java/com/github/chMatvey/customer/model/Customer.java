@@ -1,4 +1,4 @@
-package com.github.chMatvey.model;
+package com.github.chMatvey.customer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
