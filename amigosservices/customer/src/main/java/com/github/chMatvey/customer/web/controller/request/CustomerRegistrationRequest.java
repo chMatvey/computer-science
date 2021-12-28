@@ -1,4 +1,4 @@
-package com.github.chMatvey.customer.controller.request;
+package com.github.chMatvey.customer.web.controller.request;
 
 public record CustomerRegistrationRequest(
         String firstName,

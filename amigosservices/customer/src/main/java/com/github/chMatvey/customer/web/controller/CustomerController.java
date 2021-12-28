@@ -1,7 +1,7 @@
-package com.github.chMatvey.customer.controller;
+package com.github.chMatvey.customer.web.controller;
 
-import com.github.chMatvey.customer.controller.request.CustomerRegistrationRequest;
 import com.github.chMatvey.customer.service.CustomerService;
+import com.github.chMatvey.customer.web.controller.request.CustomerRegistrationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("api/v1/customer")
 public record CustomerController(CustomerService customerService) {
     @PostMapping
     public ResponseEntity<Void> registerCustomer(@RequestBody CustomerRegistrationRequest request) {

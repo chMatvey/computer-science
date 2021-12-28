@@ -1,20 +1,35 @@
 package com.github.chMatvey.customer.service;
 
-import com.github.chMatvey.customer.controller.request.CustomerRegistrationRequest;
 import com.github.chMatvey.customer.model.Customer;
 import com.github.chMatvey.customer.repository.CustomerRepository;
+import com.github.chMatvey.customer.service.response.FraudCheckResponse;
+import com.github.chMatvey.customer.web.controller.request.CustomerRegistrationRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public record CustomerService(CustomerRepository customerRepository) {
+@RequiredArgsConstructor
+public class CustomerService {
+    private final CustomerRepository customerRepository;
+    private final FraudService fraudService;
+
     public void register(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .email(request.email())
                 .build();
-        // todo check is email valid
-        // todo check email not taken
-        customerRepository.save(customer);
+        // todo: check is email valid
+        // todo: check email not taken
+        customerRepository.saveAndFlush(customer);
+
+        FraudCheckResponse fraudCheckResponse = fraudService.fraudCheck(customer.getId());
+        if (fraudCheckResponse == null || fraudCheckResponse.isFraudster() == null) {
+            throw new IllegalStateException("Maybe fraudster. Try later");
+        }
+        if (fraudCheckResponse.isFraudster()) {
+            throw new IllegalStateException("Fraudster");
+        }
+        // todo: send notification
     }
 }

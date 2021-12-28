@@ -1,18 +1,22 @@
-package com.github.chMatvey.customer.controller;
+package com.github.chMatvey.customer.web.controller;
 
 import com.github.chMatvey.customer.CustomerApplication;
-import com.github.chMatvey.customer.controller.request.CustomerRegistrationRequest;
 import com.github.chMatvey.customer.service.CustomerService;
+import com.github.chMatvey.customer.service.FraudService;
+import com.github.chMatvey.customer.service.response.FraudCheckResponse;
+import com.github.chMatvey.customer.web.controller.request.CustomerRegistrationRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static com.github.chMatvey.customer.TestUtil.convertObjectToJsonBytes;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,8 +26,8 @@ class CustomerControllerTest {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+    @MockBean
+    private FraudService fraudService;
 
     private MockMvc mockMvc;
 
@@ -32,8 +36,9 @@ class CustomerControllerTest {
         CustomerController customerController = new CustomerController(customerService);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(customerController)
-                .setMessageConverters(jacksonMessageConverter)
                 .build();
+        when(fraudService.fraudCheck(anyLong()))
+                .thenReturn(new FraudCheckResponse(false));
     }
 
     @Test
@@ -44,6 +49,6 @@ class CustomerControllerTest {
                 .contentType(APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(requestBody));
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
