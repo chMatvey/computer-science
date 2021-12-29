@@ -13,7 +13,7 @@ public class FraudService {
 
     public FraudCheckResponse fraudCheck(Long customerId) {
         return restTemplate.exchange(
-                "http://localhost:9000/api/v1/fraud-check/{customerId}",
+                "http://FRAUD/api/v1/fraud-check/{customerId}",
                 HttpMethod.PUT,
                 null,
                 FraudCheckResponse.class,
