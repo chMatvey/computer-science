@@ -1,4 +1,4 @@
-package com.github.chMatvey.customer.service.response;
+package com.github.chMatvey.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }

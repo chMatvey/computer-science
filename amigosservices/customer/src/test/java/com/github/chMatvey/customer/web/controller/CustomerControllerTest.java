@@ -1,9 +1,9 @@
 package com.github.chMatvey.customer.web.controller;
 
+import com.github.chMatvey.clients.fraud.FraudCheckResponse;
+import com.github.chMatvey.clients.fraud.FraudClient;
 import com.github.chMatvey.customer.CustomerApplication;
 import com.github.chMatvey.customer.service.CustomerService;
-import com.github.chMatvey.customer.service.FraudService;
-import com.github.chMatvey.customer.service.response.FraudCheckResponse;
 import com.github.chMatvey.customer.web.controller.request.CustomerRegistrationRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class CustomerControllerTest {
     private CustomerService customerService;
 
     @MockBean
-    private FraudService fraudService;
+    private FraudClient fraudService;
 
     private MockMvc mockMvc;
 
@@ -37,7 +37,7 @@ class CustomerControllerTest {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(customerController)
                 .build();
-        when(fraudService.fraudCheck(anyLong()))
+        when(fraudService.isFraudster(anyLong()))
                 .thenReturn(new FraudCheckResponse(false));
     }
 

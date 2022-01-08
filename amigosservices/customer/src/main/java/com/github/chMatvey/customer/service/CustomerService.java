@@ -1,8 +1,9 @@
 package com.github.chMatvey.customer.service;
 
+import com.github.chMatvey.clients.fraud.FraudCheckResponse;
+import com.github.chMatvey.clients.fraud.FraudClient;
 import com.github.chMatvey.customer.model.Customer;
 import com.github.chMatvey.customer.repository.CustomerRepository;
-import com.github.chMatvey.customer.service.response.FraudCheckResponse;
 import com.github.chMatvey.customer.web.controller.request.CustomerRegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
-    private final FraudService fraudService;
+    private final FraudClient fraudClient;
 
     public void register(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -23,7 +24,7 @@ public class CustomerService {
         // todo: check email not taken
         customerRepository.saveAndFlush(customer);
 
-        FraudCheckResponse fraudCheckResponse = fraudService.fraudCheck(customer.getId());
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
         if (fraudCheckResponse == null || fraudCheckResponse.isFraudster() == null) {
             throw new IllegalStateException("Maybe fraudster. Try later");
         }
