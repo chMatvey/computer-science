@@ -1,5 +1,6 @@
 package com.github.chMatvey.customer.service;
 
+import com.github.chMatvey.amqp.RabbitMqMessageProducer;
 import com.github.chMatvey.clients.fraud.FraudCheckResponse;
 import com.github.chMatvey.clients.fraud.FraudClient;
 import com.github.chMatvey.clients.notification.NotificationClient;
@@ -18,6 +19,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
     private final NotificationClient notificationClient;
+    private final RabbitMqMessageProducer messageProducer;
 
     public void register(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -37,11 +39,15 @@ public class CustomerService {
             throw new IllegalStateException("Fraudster");
         }
 
-        // todo make it async. i.e. add to queue
-        notificationClient.sendNotification(new NotificationRequest(
+        NotificationRequest notificationRequest = new NotificationRequest(
                 customer.getId(),
                 customer.getEmail(),
                 format("Hi %s, welcome to the ...", customer.getFirstName())
-        ));
+        );
+        messageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
     }
 }
