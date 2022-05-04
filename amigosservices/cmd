@@ -1,0 +1,9 @@
+kubectl exec -it postgres-0 -- psql -U postgres
+kubectl apply -f k8s/minikube/services/customer
+kubectl get svc
+kubectl get pods
+kubectl logs <pod name>
+
+minikube start
+minikube tunnel
+minikube stop
