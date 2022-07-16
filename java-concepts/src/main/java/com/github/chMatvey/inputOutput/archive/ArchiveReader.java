@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.FileTime;
-import java.util.zip.GZIPInputStream;
 
 public class ArchiveReader implements AutoCloseable {
     private final DataInputStream inputStream;
@@ -45,7 +44,7 @@ public class ArchiveReader implements AutoCloseable {
         Files.createDirectories(parentDirectory);
     }
 
-    public ArchiveEntry nextEntry() throws IOException {
+    private ArchiveEntry nextEntry() throws IOException {
         ArchiveEntry nextEntry = readEntry();
         if (nextEntry == null) {
             return null;
@@ -63,7 +62,7 @@ public class ArchiveReader implements AutoCloseable {
             entry.setName(inputStream.readUTF());
             entry.setCreationTime(inputStream.readLong());
             entry.setLastModifiedTime(inputStream.readLong());
-            entry.setInputStream(new GZIPInputStream(new EmbeddedInputStream(inputStream)));
+            entry.setInputStream(new EmbeddedInputStream(inputStream));
         } catch (IOException e) {
             return null;
         }

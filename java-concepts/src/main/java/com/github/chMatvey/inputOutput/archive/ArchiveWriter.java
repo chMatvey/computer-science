@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.zip.GZIPOutputStream;
 
-public class ArchiveWriter {
+public class ArchiveWriter implements AutoCloseable {
     private final DataOutputStream outputStream;
 
     public ArchiveWriter(Path outputFile) throws IOException {
@@ -31,11 +30,16 @@ public class ArchiveWriter {
         });
     }
 
+    @Override
+    public void close() throws IOException {
+        this.outputStream.close();
+    }
+
     private void addFile(Path file, Path baseDirectory, BasicFileAttributes fileAttributes) throws IOException {
         outputStream.writeUTF(baseDirectory.relativize(file).toString());
         outputStream.writeLong(fileAttributes.creationTime().toMillis());
         outputStream.writeLong(fileAttributes.lastModifiedTime().toMillis());
-        try (OutputStream fileContentStream = new GZIPOutputStream(new EmbeddedOutputStream(outputStream))) {
+        try (OutputStream fileContentStream = new EmbeddedOutputStream(outputStream)) {
             Files.copy(file, fileContentStream);
         }
     }

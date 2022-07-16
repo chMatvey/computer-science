@@ -35,7 +35,7 @@ public class EmbeddedInputStream extends FilterInputStream {
         int bytesRead = 0;
         while (0 < len) {
             if (isBufferEmpty() && readBufferFromUnderlyingStream() <= 0) {
-                break;
+                return -1;
             }
             int byteGotFromBuffer = getBytesFromBuffer(bytes, off, len);
             bytesRead += byteGotFromBuffer;
@@ -65,7 +65,7 @@ public class EmbeddedInputStream extends FilterInputStream {
     }
 
     private int getBytesFromBuffer(byte[] bytes, int off, int len) {
-        int remainingBytesInBuffer = buffer.length - bufferPosition;
+        int remainingBytesInBuffer = bufferLimit - bufferPosition;
         int bytesToRead = Math.min(len, remainingBytesInBuffer);
         System.arraycopy(buffer, bufferPosition, bytes, off, bytesToRead);
         bufferPosition += bytesToRead;
@@ -74,13 +74,19 @@ public class EmbeddedInputStream extends FilterInputStream {
     }
 
     private boolean isBufferEmpty() {
-        return bufferPosition == 0;
+        return bufferPosition == bufferLimit;
     }
 
     private int readBufferFromUnderlyingStream() throws IOException {
-        bufferPosition = (in.read() << 8) & 0xFF + in.read() & 0xFF;
-        int readBytes = in.read(buffer, 0, bufferPosition);
         bufferPosition = 0;
-        return readBytes;
+        int firstByte = in.read();
+        if (firstByte == -1) {
+            return firstByte;
+        }
+        bufferLimit = (firstByte << 8) + in.read();
+        if (bufferLimit == 0) {
+            return -1;
+        }
+        return in.read(buffer, 0, bufferLimit);
     }
 }

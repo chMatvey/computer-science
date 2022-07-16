@@ -40,6 +40,7 @@ public class EmbeddedOutputStream extends FilterOutputStream {
 
     @Override
     public void flush() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
