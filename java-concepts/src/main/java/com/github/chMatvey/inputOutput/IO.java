@@ -7,12 +7,13 @@ import static java.io.StreamTokenizer.TT_EOF;
 
 public class IO {
     public static void main(String[] args) throws IOException {
-        InputStream inputStream = Objects.requireNonNull(
+        try(InputStream inputStream = Objects.requireNonNull(
                 IO.class.getClassLoader().getResourceAsStream("file.txt"),
                 "File not found in resource directory"
-        );
-        StreamTokenizer streamTokenizer = new StreamTokenizer(new InputStreamReader(inputStream));
-        copyByToken(streamTokenizer, System.out);
+        )) {
+            StreamTokenizer streamTokenizer = new StreamTokenizer(new InputStreamReader(inputStream));
+            copyByToken(streamTokenizer, System.out);
+        }
     }
 
     public static void copyStreamByByteBuffer(InputStream inputStream, OutputStream outputStream) throws IOException {
