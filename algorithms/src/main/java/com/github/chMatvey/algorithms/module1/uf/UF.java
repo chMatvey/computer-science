@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.uf;
+package com.github.chMatvey.algorithms.module1.uf;
 
 public interface UF {
     boolean connected(int p, int q);

@@ -1,7 +1,7 @@
-package com.github.chMatvey.algorithms.percolation;
+package com.github.chMatvey.algorithms.module1.percolation;
 
-import com.github.chMatvey.algorithms.uf.UF;
-import com.github.chMatvey.algorithms.uf.WeightedQuickUnionUF;
+import com.github.chMatvey.algorithms.module1.uf.UF;
+import com.github.chMatvey.algorithms.module1.uf.WeightedQuickUnionUF;
 
 /** Row and Col indexes start with 1 **/
 public class PercolationImpl implements Percolation {

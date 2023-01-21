@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.uf;
+package com.github.chMatvey.algorithms.module1.uf;
 
 public class QuickFindUF implements UF {
     private final int[] id;

@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.percolation;
+package com.github.chMatvey.algorithms.module1.percolation;
 
 /** Percolation(int n) - creates n-by-n grid, with all sites initially blocked **/
 public interface Percolation {

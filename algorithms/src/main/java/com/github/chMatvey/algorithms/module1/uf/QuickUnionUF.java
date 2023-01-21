@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.uf;
+package com.github.chMatvey.algorithms.module1.uf;
 
 public class QuickUnionUF implements UF {
     private final int[] id;

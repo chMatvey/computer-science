@@ -1,5 +1,6 @@
-package com.github.chMatvey.algorithms.uf;
+package com.github.chMatvey.algorithms.module1.uf;
 
+import com.github.chMatvey.algorithms.module1.uf.WeightedQuickUnionUF;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -7,10 +8,10 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class QuickUnionUFTest {
+class WeightedQuickUnionUFTest {
     @Test
     void test1() {
-        QuickUnionUF uf = new QuickUnionUF(10);
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(10);
         uf.union(1, 2);
         uf.union(3, 4);
         uf.union(5, 6);
@@ -32,9 +33,9 @@ class QuickUnionUFTest {
     @Test
     void test2() {
         int n = 1_000_000;
-        QuickUnionUF uf = new QuickUnionUF(n);
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
         Random random = new Random();
-        for (int i = 0; i < n / 2; i++) {
+        for (int i = 0; i < n * 100; i++) {
             int p = random.nextInt(n);
             int q = random.nextInt(n);
             uf.union(p, q);
