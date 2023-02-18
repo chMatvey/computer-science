@@ -11,6 +11,10 @@ public class InsertionSort implements Sort {
                 else break;
     }
 
+    /**
+     * @param low start index, inclusive
+     * @param high end index, inclusive
+     */
     public <T extends Comparable<T>> void sort(T[] a, int low, int high) {
         int N = high + 1;
         for (int i = low; i < N; i++)

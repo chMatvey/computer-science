@@ -1,6 +1,6 @@
-package com.github.chMatvey.algorithms.module1.uf;
+package com.github.chMatvey.algorithms.uf;
 
-import com.github.chMatvey.algorithms.module1.uf.QuickFindUF;
+import com.github.chMatvey.algorithms.uf.QuickFindUF;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

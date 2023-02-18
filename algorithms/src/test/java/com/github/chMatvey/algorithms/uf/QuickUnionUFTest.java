@@ -1,6 +1,6 @@
-package com.github.chMatvey.algorithms.module1.uf;
+package com.github.chMatvey.algorithms.uf;
 
-import com.github.chMatvey.algorithms.module1.uf.QuickUnionUF;
+import com.github.chMatvey.algorithms.uf.QuickUnionUF;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;

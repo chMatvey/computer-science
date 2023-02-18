@@ -1,6 +1,6 @@
-package com.github.chMatvey.algorithms.module1.uf;
+package com.github.chMatvey.algorithms.uf;
 
-import com.github.chMatvey.algorithms.module1.uf.WeightedQuickUnionUF;
+import com.github.chMatvey.algorithms.uf.WeightedQuickUnionUF;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
