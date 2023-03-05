@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module2;
+package com.github.chMatvey.algorithms.structure;
 
 public interface Deque<Item> extends Iterable<Item> {
     boolean isEmpty();

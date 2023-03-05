@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module1.percolation;
+package com.github.chMatvey.algorithms.module1;
 
 /** PercolationStats(int n, int trials) - perform independent trials on an n-by-n grid **/
 public interface PercolationStats {

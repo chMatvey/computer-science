@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module2;
+package com.github.chMatvey.algorithms.structure;
 
 import org.junit.jupiter.api.Test;
 

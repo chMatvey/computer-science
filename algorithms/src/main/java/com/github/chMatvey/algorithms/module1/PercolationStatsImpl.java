@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module1.percolation;
+package com.github.chMatvey.algorithms.module1;
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;

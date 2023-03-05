@@ -1,5 +1,6 @@
 package com.github.chMatvey.algorithms.module2;
 
+import com.github.chMatvey.algorithms.structure.RandomizedQueue;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 

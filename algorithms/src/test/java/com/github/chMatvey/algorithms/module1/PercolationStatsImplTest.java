@@ -1,10 +1,8 @@
-package com.github.chMatvey.algorithms.module1.percolation;
+package com.github.chMatvey.algorithms.module1;
 
-import com.github.chMatvey.algorithms.module1.percolation.PercolationStats;
-import com.github.chMatvey.algorithms.module1.percolation.PercolationStatsImpl;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PercolationStatsImplTest {
     @Test

@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module2;
+package com.github.chMatvey.algorithms.structure;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module2;
+package com.github.chMatvey.algorithms.structure;
 
 import edu.princeton.cs.algs4.StdRandom;
 

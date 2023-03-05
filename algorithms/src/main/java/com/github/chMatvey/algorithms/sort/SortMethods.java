@@ -8,6 +8,10 @@ public class SortMethods {
         return v.compareTo(w) < 0;
     }
 
+    public static <T extends Comparable<T>> boolean less(T[] a, int i, int j) {
+        return a[i].compareTo(a[j]) < 0;
+    }
+
     public static <T extends Comparable<T>> void exchange(T[] a, int i, int j) {
         T swap = a[i];
         a[i] = a[j];

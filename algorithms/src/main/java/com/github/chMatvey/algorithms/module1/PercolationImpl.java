@@ -1,4 +1,4 @@
-package com.github.chMatvey.algorithms.module1.percolation;
+package com.github.chMatvey.algorithms.module1;
 
 import com.github.chMatvey.algorithms.uf.UF;
 import com.github.chMatvey.algorithms.uf.WeightedQuickUnionUF;
