@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.github.chMatvey.grpcServer;
+
+import "google/protobuf/empty.proto";
+import "profile.proto";
+
+service ProfileService {
+  rpc GetCurrentProfile (google.protobuf.Empty) returns (Profile) {}
+
+  rpc DeleteCurrentProfile (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+
+  rpc clientStream (stream Profile) returns (google.protobuf.Empty) {}
+
+  rpc serverStream (google.protobuf.Empty) returns (stream Profile) {}
+
+  rpc biDirectionalStream (stream Profile) returns (stream Profile) {}
+}
