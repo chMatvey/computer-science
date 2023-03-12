@@ -23,12 +23,12 @@ public class BruteCollinearPoints implements CollinearPoints {
         for (int i = 0; i < pointsCopy.length - 3; i++)
             for (int j = i + 1; j < pointsCopy.length - 2; j++)
                 for (int k = j + 1; k < pointsCopy.length - 1; k++)
-                    for (int l = k + 1; l < pointsCopy.length; l++) {
+                    for (int m = k + 1; m < pointsCopy.length; m++) {
                         double slope1 = pointsCopy[i].slopeTo(pointsCopy[j]);
                         double slope2 = pointsCopy[i].slopeTo(pointsCopy[k]);
-                        double slope3 = pointsCopy[i].slopeTo(pointsCopy[l]);
+                        double slope3 = pointsCopy[i].slopeTo(pointsCopy[m]);
                         if (slope1 == slope2 && slope1 == slope3)
-                            segmentList.add(new LineSegment(pointsCopy[i], pointsCopy[l]));
+                            segmentList.add(new LineSegment(pointsCopy[i], pointsCopy[m]));
                     }
         segments = segmentList.toArray(new LineSegment[0]);
     }
