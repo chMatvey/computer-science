@@ -1,4 +1,6 @@
-package com.github.chMatvey.algorithms.structure;
+package com.github.chMatvey.algorithms.structure.tree;
+
+import com.github.chMatvey.algorithms.structure.SymbolTable;
 
 import java.util.Optional;
 
@@ -11,7 +13,7 @@ import java.util.Optional;
  * If keys randomly shuffled search and insert operations are 1.39 lg N.
  * But if deletions (Hibbard deletions) allowed search, insert and deletion becomes square root N.
  */
-public interface BinarySearchTree<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value> {
+public interface SearchTree<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value> {
     /**
      * Largest key <= a given key
      */
@@ -30,4 +32,8 @@ public interface BinarySearchTree<Key extends Comparable<Key>, Value> extends Sy
     void deleteMin();
 
     void deleteMax();
+
+    Key min();
+
+    Key max();
 }

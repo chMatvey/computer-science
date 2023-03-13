@@ -1,11 +1,13 @@
-package com.github.chMatvey.algorithms.structure;
+package com.github.chMatvey.algorithms.structure.tree;
 
 import edu.princeton.cs.algs4.Queue;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.Optional;
 
-public class BinarySearchTreeImpl<Key extends Comparable<Key>, Value> implements BinarySearchTree<Key, Value> {
+public class BinarySearchTreeImpl<Key extends Comparable<Key>, Value> implements BinarySearchTree<Key, Value>, SearchTree<Key, Value> {
+    @Getter
     private Node root;
 
     @Override
@@ -70,6 +72,30 @@ public class BinarySearchTreeImpl<Key extends Comparable<Key>, Value> implements
     @Override
     public void deleteMax() {
         root = deleteMax(root);
+    }
+
+    @Override
+    public Key min() {
+        return min(root).key;
+    }
+
+    @Override
+    public Key max() {
+        return max(root).key;
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    public Iterable<Key> levelOrderKeys() {
+        Queue<Key> queue = new Queue<>();
+
+        for (int i = 0; i < height(root); i++) {
+            levelOrderKeys(root, i, queue);
+        }
+
+        return queue;
     }
 
     private Node put(Node node, Key key, Value value) {
@@ -193,7 +219,33 @@ public class BinarySearchTreeImpl<Key extends Comparable<Key>, Value> implements
         return node.left == null ? node : min(node.left);
     }
 
-    private class Node {
+    private Node max(Node node) {
+        return node.right == null ? node : max(node.right);
+    }
+
+    private int height(Node node) {
+        if (node == null)
+            return 0;
+
+        int leftHeight = height(node.getLeft());
+        int rightHeight = height(node.getRight());
+
+        return Integer.max(leftHeight, rightHeight) + 1;
+    }
+
+    private void levelOrderKeys(BinaryNode<Key,Value> node, int level, Queue<Key> queue) {
+        if (node == null)
+            return;
+        if (level == 0) {
+            queue.enqueue(node.getKey());
+        } else {
+            levelOrderKeys(node.getLeft(), level - 1, queue);
+            levelOrderKeys(node.getRight(), level - 1, queue);
+        }
+    }
+
+    @Getter
+    private class Node implements BinaryNode<Key, Value> {
         @NonNull
         private final Key key;
 
