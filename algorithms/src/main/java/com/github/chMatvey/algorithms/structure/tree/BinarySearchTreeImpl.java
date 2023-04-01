@@ -3,6 +3,7 @@ package com.github.chMatvey.algorithms.structure.tree;
 import edu.princeton.cs.algs4.Queue;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
@@ -84,10 +85,12 @@ public class BinarySearchTreeImpl<Key extends Comparable<Key>, Value> implements
         return max(root).key;
     }
 
+    @Override
     public int height() {
         return height(root);
     }
 
+    @Override
     public Iterable<Key> levelOrderKeys() {
         Queue<Key> queue = new Queue<>();
 
@@ -245,26 +248,17 @@ public class BinarySearchTreeImpl<Key extends Comparable<Key>, Value> implements
     }
 
     @Getter
+    @RequiredArgsConstructor
     private class Node implements BinaryNode<Key, Value> {
-        @NonNull
-        private final Key key;
+        @NonNull final Key key;
+        @NonNull Value value;
 
-        @NonNull
-        private Value value;
-
-        private Node left;
-        private Node right;
+        Node left;
+        Node right;
 
         /**
          * number of node in subtree
          */
-        @NonNull
-        private int count;
-
-        public Node(Key key, Value val, int count) {
-            this.key = key;
-            this.value = val;
-            this.count = count;
-        }
+        @NonNull int count;
     }
 }
